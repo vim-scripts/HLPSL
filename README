@@ -1,0 +1,15 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=4510
+
+ this is a plugin for hlpsl ,which is  a lauguage for specifying security protocols . The home page of this lauguage is www.avispa-project.org/
+
+hotkeys :
+ <leader>cc    comments one line
+ <leader>cu    cancelthe comments of one line
+ <leader>qe    comments in the end of one line
+
+ <F7>   hlpsl2html 
+ <F8>   hlpsl2html with  Arguments()
+ <F11>  avispa
+ <F12>  avispa with Arguments(-ofmc[-sessco][-p [number [number]] , --satmc, --cl-atse  --ta4sp)
+ 
+  %%%% esc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

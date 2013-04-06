@@ -1,0 +1,59 @@
+﻿*hlpslsupport.txt*      For Vim version 7.3.  Last change: 2012 Jul 20
+
+
+		  VIM REFERENCE MANUAL    by xingchao 
+GVim plugins for hlpsl+ 
+
+
+1. Using GUI                        	|hlpslsupport-usage-gvim|
+2. hotkeys	                    	|hlpslsupport-hotkeys|
+3. indent	                    	|hlpslsupport-indent|
+4. hlpsl dictionary			|hlpslsupport-dictionary|
+5. hlpsl User_Configuration			|hlpslsupport-user-configuration|
+
+==============================================================================
+1. Using GUI		        		*hlpslsupport-usage-gvim*
+hlpsl+ highlight
+
+==============================================================================
+2. hotkeys					*hlpslsupport-hotkeys*
+
+ <leader>cc    comments one line
+ <leader>cu    cancelthe comments of one line
+ <leader>qe    comments in the end of one line
+
+
+ <F7>   hlpsl2html 
+ <F8>   hlpsl2html with  Arguments()
+ <F11>  avispa
+ <F12>  avispa with Arguments(-ofmc[-sessco][-p [number [number]] , --satmc, --cl-atse  --ta4sp
+   )
+ 
+  %%%% esc %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+==============================================================================
+3. indent                           *hlpslsupport-indent*
+ 
+==============================================================================
+4. hlpsl dictionary                           *hlpslsupport-dictionary*
+windows
+ $Vim\vimfiles\hlpsl-support\templates
+ $Vim\vimfiles\hlpsl-support\wordlists\hlpsl.list
+linux
+ $Vim/.vim/hlpsl-support/templates
+ $Vim/.vim/hlpsl-support/wordlists/hlpsl/list
+
+help:
+windows
+ $Vim\vimfiles\doc\hlpslsupport.txt
+linux
+ $Vim/.vim/doc/hlpslsupport.txt
+
+
+
+5. hlpsl  User_Configuration  *hlpslsupport-user-configuration*
+
+
+
+
+
