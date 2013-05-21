@@ -1,5 +1,5 @@
 " hlpsl.vim
-" @Author:      xingchao <xingchao19811209@gmail.com>
+" @Author:      xingchao <xingchaoet@gmail.com>
 " @Website:     
 " @License:     GPL (see http://www.gnu.org/licenses/gpl.txt)
 " @Created:    25/03/2013 18:12:22 Monday  
@@ -86,9 +86,9 @@ if	s:MSWIN
   endif
   "
 
-  let g:HLPSL_PATH = 'c:\hlpsl'
+  " let g:HLPSL_PATH = 'D:\www\span\bin\'
   "pdflatex is already in PATH
-  " let g:HLPSL_PdfLatexDir = 'C:\Program Files (x86)\ProTeXt\MiKTex\miktex\bin\x64\'
+  let g:HLPSL_PdfLatexDir = 'C:\Program Files (x86)\ProTeXt\MiKTex\miktex\bin\x64\'
   let s:HLPSL_GlobalTemplateDir	= s:plugin_dir.'hlpsl-support\templates'
   let s:HLPSL_GlobalTemplateFile = s:HLPSL_GlobalTemplateDir.'\Templates'
   let s:HLPSL_LocalTemplateFile    = s:plugin_dir.'\hlpsl-support\templates\Templates'
@@ -239,6 +239,22 @@ function! HLPSL_InitMenus ()
   "
   "
   "
+  if s:MSWIN 
+    exe "amenu  <silent>  ".s:Run.'.ofmc<Tab>\F5                               :call HLPSL_Ofmc()<CR>'
+    exe "imenu  <silent>  ".s:Run.'.ofmc<Tab>\F5                          <C-C>:call HLPSL_Ofmc()<CR>'
+    exe "amenu  <silent>  ".s:Run.'.cmd\.\ line\ arg\.\ for\ ofmc<Tab>\F6      :call HLPSL_OfmcArguments()<CR>'
+    exe "imenu  <silent>  ".s:Run.'.cmd\.\ line\ arg\.\ for\ ofmc<Tab>\F6 <C-C>:call HLPSL_OfmcArguments()<CR>'
+    exe "amenu  <silent>  ".s:Run.'.-SEP1-                          :'
+  "
+
+    exe "amenu  <silent>  ".s:Run.'.&clatse<Tab>\F7                                    :call HLPSL_Clatse()<CR>'
+    exe "imenu  <silent>  ".s:Run.'.&clatse<Tab>\F7                               <C-C>:call HLPSL_Clatse()<CR>'
+    exe "amenu  <silent>  ".s:Run.'.cmd\.\ line\ ar&g\.\ for\ clatse<Tab>\F8     :call HLPSL_ClatseArguments()<CR>'
+    exe "imenu  <silent>  ".s:Run.'.cmd\.\ line\ ar&g\.\ for\ clatse<Tab>\F8      <C-C>:call HLPSL_ClatseArguments()<CR>'
+    exe "amenu  <silent>  ".s:Run.'.-SEP2-                          :'
+
+    
+  else
     exe "amenu  <silent>  ".s:Run.'.avispa<Tab>\F11                               :call HLPSL_avispa()<CR>'
     exe "imenu  <silent>  ".s:Run.'.avispa<Tab>\F11                          <C-C>:call HLPSL_avispa()<CR>'
     exe "amenu  <silent>  ".s:Run.'.cmd\.\ line\ arg\.\ for\ avispa<Tab>\F12      :call HLPSL_avispaArguments()<CR>'
@@ -246,15 +262,11 @@ function! HLPSL_InitMenus ()
     exe "amenu  <silent>  ".s:Run.'.-SEP1-                          :'
   "
 
-  if s:MSWIN 
-    let s:non = 0
-  else
     exe "amenu  <silent>  ".s:Run.'.&hlpsl2latex<Tab>\F9                                    :call HLPSL_hlpsl2latex()<CR>'
     exe "imenu  <silent>  ".s:Run.'.&hlpsl2latex<Tab>\F9                               <C-C>:call HLPSL_hlpsl2latex()<CR>'
     exe "amenu  <silent>  ".s:Run.'.cmd\.\ line\ ar&g\.\ for\ hlpsl2latex<Tab>\F10           :call HLPSL_hlpsl2latexArguments()<CR>'
     exe "imenu  <silent>  ".s:Run.'.cmd\.\ line\ ar&g\.\ for\ hlpsl2latex<Tab>\F10      <C-C>:call HLPSL_hlpsl2latexArguments()<CR>'
     exe "amenu  <silent>  ".s:Run.'.-SEP2-                          :'
-  endif
 
     exe "amenu  <silent>  ".s:Run.'.&hlpsl2html<Tab>\F7                                    :call HLPSL_hlpsl2html()<CR>'
     exe "imenu  <silent>  ".s:Run.'.&hlpsl2html<Tab>\F7                               <C-C>:call HLPSL_hlpsl2html()<CR>'
@@ -266,6 +278,7 @@ function! HLPSL_InitMenus ()
     exe "imenu  <silent>  ".s:Run.'.&hlpsl2clean<Tab>\F5                               <C-C>:call HLPSL_hlpsl2clean()<CR>'
     exe "amenu  <silent>  ".s:Run.'.-SEP4-                          :'
 
+  endif
 
 
   "
@@ -450,6 +463,9 @@ function! HLPSL_Input ( promp, text, ... )
   return retval
 endfunction    " ----------  end of function HLPSL_Input ----------
 
+" ------------------------------------------
+" function for linux
+" ------------------------------------------
 "avispa
 let s:HLPSL_avispaCmdLineArgs = ''
 
@@ -510,7 +526,55 @@ function! HLPSL_hlpsl2clean()
   exec	":update"
   " run avispa  
   exec	":!hlpsl2clean   %<" 
+endfunction    " ----------  end of function HLPSL_hlpsl2clean----------
+
+" ------------------------------------------
+"end function for linux
+" ------------------------------------------
+
+
+" ------------------------------------------
+" function for win 
+" ------------------------------------------
+
+"ofmc
+let s:HLPSL_OfmcCmdLineArgs = ''
+
+function! HLPSL_OfmcArguments ()
+  let	s:HLPSL_OfmcCmdLineArgs = HLPSL_Input(" command line arguments for ofmc: ",s:HLPSL_OfmcCmdLineArgs )
+  call HLPSL_Ofmc()
+endfunction    " ----------  end of function HLPSL_avispaArguments ----------
+
+function! HLPSL_Ofmc()
+  " update : write source file if necessary
+  exec	":update"
+  " run avispa  
+    exec	":!".g:HLPSL_PATH."hlpsl2if.exe --all %:p"
+    exec	":!".g:HLPSL_PATH."ofmc.exe ".s:HLPSL_OfmcCmdLineArgs ." %<.if > %<.ofmc.atk "
+  silent  exec	":!notepad %<.ofmc.atk "
 endfunction    " ----------  end of function HLPSL_hlpsl2html----------
+
+
+"clatse
+let s:HLPSL_ClatseCmdLineArgs = ''
+
+function! HLPSL_ClatseArguments ()
+  let	s:HLPSL_ClatseCmdLineArgs = HLPSL_Input(" command line arguments for clatse: ",s:HLPSL_ClatseCmdLineArgs )
+  call HLPSL_Clatse()
+endfunction    " ----------  end of function HLPSL_avispaArguments ----------
+
+function! HLPSL_Clatse()
+  " update : write source file if necessary
+  exec	":update"
+  " run avispa  
+    exec	":!".g:HLPSL_PATH."hlpsl2if.exe --all %:p"
+    exec	":!".g:HLPSL_PATH."clatse.exe ".s:HLPSL_ClatseCmdLineArgs ." %<.if > %<.clatse.atk "
+  silent  exec	":!notepad %<.clatse.atk "
+endfunction    " ----------  end of function HLPSL_hlpsl2html----------
+
+" ------------------------------------------
+"end function for win 
+" ------------------------------------------
 
 "------------------------------------------------------------------------------
 "  HLPSL_InsertTemplate     {{{1
@@ -1130,16 +1194,21 @@ syntax match hlpslConjunction /\/\\[_]/
   hi def hlpslGoalKeyword 			cterm=bold ctermfg=Cyan ctermbg=darkgrey guifg=DarkBlue gui=Bold  Italic
 
 iab mn <c-r>= expand("%:r")
-
 iab %%%% <c-r>=("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%")<cr>
 
-map <F7> :call HLPSL_hlpsl2html() <CR>
-map <F8> :call HLPSL_hlpsl2htmlArguments() <CR>
-map <F9> :call HLPSL_hlpsl2latex() <CR>
-map <F10> :call HLPSL_hlpsl2latexArguments() <CR>
-map <F11> :call HLPSL_avispa() <CR>
-map <F12> :call HLPSL_avispaArguments() <CR>
-
+if	s:MSWIN
+  map <F5> :call HLPSL_Ofmc() <CR>
+  map <F6> :call HLPSL_OfmcArguments() <CR>
+  map <F7> :call HLPSL_Clatse() <CR>
+  map <F8> :call HLPSL_ClatseArguments() <CR>
+else
+  map <F7> :call HLPSL_hlpsl2html() <CR>
+  map <F8> :call HLPSL_hlpsl2htmlArguments() <CR>
+  map <F9> :call HLPSL_hlpsl2latex() <CR>
+  map <F10> :call HLPSL_hlpsl2latexArguments() <CR>
+  map <F11> :call HLPSL_avispa() <CR>
+  map <F12> :call HLPSL_avispaArguments() <CR>
+endif
 
 
 " add comment at the end of line
